@@ -110,24 +110,3 @@ This is not the ESPHome component packaged for Arduino and does not depend on it
 Version 0.1.0 reads tracking reports only. Configuration commands, Bluetooth,
 zone configuration and firmware queries are not implemented. The core accepts
 any Arduino `Stream`; the supplied example is specifically for ESP32-S3.
-
-## Validation
-
-Host tests exercise the actual library parser with captured-format byte fixtures:
-signed coordinates/speeds, three slots, empty frames, every frame split point,
-bytewise input, consecutive reports, malformed/truncated reports and recovery.
-Fixtures based on the reported failure pattern verify that an encoded +1007 mm
-Y value is decoded as +1007, not -31761 mm.
-
-Run with a C++11 compiler:
-
-```sh
-g++ -std=c++11 -Wall -Wextra -Werror -pedantic -Itests/support -Isrc src/HLKLD2450.cpp tests/parser_test.cpp -o parser_test
-./parser_test
-```
-
-Host parser tests pass under C++11 with warnings treated as errors. An ESP32-S3
-build was attempted with Arduino ESP32 core 3.3.12, but the installed cross-compiler
-could not start: Windows reported `Illegal System DLL Relocation`. This is an
-environment failure, not a successful board build. Compilation in Arduino IDE
-and hardware behavior still need verification on an S3 connected to an LD2450.
